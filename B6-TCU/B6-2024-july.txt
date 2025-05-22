@@ -1,0 +1,146 @@
+-- scriptname B6-2024-july.txt
+
+-- include can_ids.lua
+-- endinclude
+
+-- include utils.lua
+-- endinclude
+
+-- include send-methods.lua
+-- endinclude
+
+setTickRate(100)
+
+rpm = 0
+tps = 0
+fakeTorque = 0
+function onMotor1(bus, id, dlc, data)
+	totalEcuMessages = totalEcuMessages + 1
+	rpm = getBitRange(data, 16, 16) * 0.25 or 0
+	if rpm == 0 then
+		canMotorInfoTotalCounter = 0
+	end
+
+	tps = getBitRange(data, 40, 8) * 0.4 or 0
+
+	fakeTorque = interpolate(0, 6, 100, 60, tps)
+
+--	txCan(TCU_BUS, MOTOR_1, 0, motor1Data)
+    sendMotor1()
+end
+
+iat = 0
+pps = 0
+tps = 0
+
+motor3counter = 0
+function onMotor3(bus, id, dlc, data)
+ motor3counter = (motor3counter + 1) % 16
+	totalEcuMessages = totalEcuMessages + 1
+	iat = getBitRange(data, 8, 8) * 0.75 - 48
+	pps = getBitRange(data, 16, 8) * 0.40
+	tps = getBitRange(data, 56, 8) * 0.40
+    if motor3counter % 70 == 0 then
+--    	print ('MOTOR_3 pps ' ..pps ..' tps ' ..tps ..' iat ' ..iat)
+    end
+end
+
+canRxAdd(ECU_BUS, MOTOR_1, onMotor1)
+canRxAdd(ECU_BUS, MOTOR_BRE, drop)
+canRxAdd(ECU_BUS, MOTOR_2_648, drop)
+canRxAdd(ECU_BUS, MOTOR_3, onMotor3)
+canRxAdd(ECU_BUS, MOTOR_5, drop)
+canRxAdd(ECU_BUS, MOTOR_6, drop)
+canRxAdd(ECU_BUS, MOTOR_7, drop)
+canRxAdd(ECU_BUS, ACC_GRA, drop)
+canRxAdd(ECU_BUS, MOTOR_INFO, drop)
+
+canRxAdd(ECU_BUS, Gate_Komf_1, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Kombi_1, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Kombi_3, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Soll_Verbauliste_neu, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, GRA_Neu, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Systeminfo_1, silentlyRelayFromECU)
+
+canRxAdd(ECU_BUS, VWTP_OUT, silentlyRelayFromECU)
+
+canRxAdd(ECU_BUS, Bremse_1, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Bremse_2, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Bremse_3, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Bremse_4, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Bremse_5, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, Bremse_6, silentlyRelayFromECU)
+canRxAdd(ECU_BUS, BRAKE_8_428, silentlyRelayFromECU)
+
+canRxAdd(ECU_BUS, Diagnose_1, silentlyRelayFromECU)
+
+canRxAdd(ECU_BUS, Lenkwinkel_1, drop)
+canRxAdd(ECU_BUS, Lenkhilfe_3, drop)
+canRxAdd(ECU_BUS, Lenkhilfe_2, drop)
+canRxAdd(ECU_BUS, Klima_1, drop)
+canRxAdd(ECU_BUS, BSG_Last, drop)
+canRxAdd(ECU_BUS, AIRBAG, drop)
+
+canRxAdd(ECU_BUS, Lenkhilfe_1, drop)
+canRxAdd(ECU_BUS, EPB_1, drop)
+
+canRxAdd(ECU_BUS, 1394, drop)
+canRxAdd(ECU_BUS, 1056, drop)
+
+--canRxAdd(ECU_BUS, 1478, drop)
+--canRxAdd(ECU_BUS, 1490, drop)
+--canRxAdd(ECU_BUS, 1888, drop)
+--canRxAdd(ECU_BUS, 1360, drop)
+
+counter440 = 0
+function onTcu440(bus, id, dlc, data)
+    isShiftActive = getBitRange(data, 0, 1)
+    setBitRange(data, 0, 1, 0)
+     isShiftActive2 = getBitRange(data, 0, 1)
+        txCan(ECU_BUS, id, 0, data)
+
+    if counter440 % 70 == 0 then
+ --       print("TCU " .. isShiftActive .. isShiftActive2)
+    end
+end
+
+function verboseRelayFromECU(bus, id, dlc, data)
+    onEcuTimer : reset ()
+--    print("Relaying to TCU " .. id)
+	totalEcuMessages = totalEcuMessages + 1
+	txCan(TCU_BUS, id, 0, data)
+end
+
+canRxAddMask(ECU_BUS, 0, 0, verboseRelayFromECU)
+
+canRxAdd(ECU_BUS, 1360, drop)
+canRxAdd(TCU_BUS, TCU_1088_440, onTcu440)
+canRxAddMask(TCU_BUS, 0, 0, silentlyRelayFromTCU)
+
+everySecondTimer = Timer.new()
+_10msPeriodTimer = Timer.new()
+
+function onTick()
+	if everySecondTimer : getElapsedSeconds() > 1 then
+		everySecondTimer : reset()
+		print("Total from ECU " ..totalEcuMessages .. " totalTcuMessages " .. totalTcuMessages)
+		print("tps " .. tps .. " RPM=" .. rpm);
+
+		motor5FuelCounter = motor5FuelCounter + 20
+
+		sendMotorInfo()
+	end
+
+
+	if _10msPeriodTimer : getElapsedSeconds() > 0.01 then
+	    _10msPeriodTimer : reset()
+		sendMotorBre()
+		sendAccGra()
+		sendMotor2()
+		sendMotor3()
+		sendMotor5()
+	    sendMotor6()
+		sendMotor7()
+	end
+end
+

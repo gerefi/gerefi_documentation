@@ -1,0 +1,52 @@
+#
+# ACCESS_TOKEN - Personal Access Token with "public_repo" permission
+# If there is a change to gerefi/gerefi_documentation, this action merges it to gerefi/gerefi/wiki
+#
+# the opposite merge is implemented as https://github.com/gerefi/gerefi/blob/master/.github/workflows/sync-wiki.yaml
+#
+
+name: Sync Wiki3
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'actions-user' }}
+
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v3
+
+    - name: Install mkdocs Prerequisites
+      run: |
+        sudo apt update
+        sudo apt install sshpass
+        bash ./bin/mkdocs-install.sh
+
+    - name: Generate static pages using mkdocs
+      run: |
+        bash ./bin/mkdocs-run.sh
+
+    - name: Set SSH variables
+      env:
+        ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+      run: |
+        if [ "${{github.ref}}" = "refs/heads/master" ]; then
+          echo "::set-env name=GEREFI_SSH_SERVER::${{secrets.GEREFI_SSH_SERVER}}";
+          echo "::set-env name=GEREFI_SSH_USER::${{secrets.GEREFI_SSH_USER}}";
+          echo "::set-env name=GEREFI_SSH_PASS::${{secrets.GEREFI_SSH_PASS}}";
+        fi
+
+    - name: Upload static results to wiki3
+      run: |
+        cd mkdocs/
+        mv site wiki
+        if [ -n "$GEREFI_SSH_SERVER" ]; then
+          echo "Uploading Wiki"
+          tar -czf - wiki | sshpass -p "$GEREFI_SSH_PASS" ssh -o StrictHostKeyChecking=no "$GEREFI_SSH_USER"@"$GEREFI_SSH_SERVER" "tar -xzf - -C docs"
+        fi
+        [ $? -eq 0 ] || { echo "upload FAILED"; exit 1; }
