@@ -1,0 +1,25 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Install Markdownlint-cli
+      run: |
+        npm install -g markdownlint-cli
+
+    - name: Lint
+      run: |
+        bash ./wiki-tools/lint.sh
