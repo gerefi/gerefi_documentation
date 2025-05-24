@@ -35,7 +35,7 @@ jobs:
         fi
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git merge technical-git/master --allow-unrelated-histories
+        git merge technical-git/master --allow-unrelated-histories -X theirs
 
     - name: Push changes gerefi/gerefi wiki
       uses: ad-m/github-push-action@master
