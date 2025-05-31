@@ -3,7 +3,7 @@
 Open question: What is in scope of gerEFI wiki and what is out of scope?
 
 * A of Nov 2022 the best cost/benefit ratio is to work on TunerStudio layout and TunerStudio field tooltips and help articles which are embedded into "Help" of specific dialogs.
-* Bruno does not believe in text documentation on wiki
+* Andrey does not believe in text documentation on wiki
 * Content problem versus infrastructure/structure problem like <https://github.com/gerefi/gerefi_documentation/issues/250> and <https://github.com/gerefi/gerefi_documentation/issues/168>
 * We are probably not trying to teach people how to tune HP Academy does that better
 

@@ -43,5 +43,5 @@ Background on mazda skyactiv coil on plug  [https://www.hexorcism.com/16ND/sh130
 
 bmw M5 ionic control module... for reference... we do not use this  --  
 
-BrunoFA latest---
+brunofa latest---
 [cheap cylinder pressure sensor option - smart diesel glow plug with pressure sensor](https://gerefi.com/forum/viewtopic.php?p=34988#p34988) [Ion Sense](https://gerefi.com/forum/viewtopic.php?p=35035#p35035)

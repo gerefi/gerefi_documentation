@@ -29,7 +29,7 @@ TMS570 - [TMS570 - Forum](https://gerefi.com/forum/viewtopic.php?f=13&t=407) & [
 =======================================================
 
 Rafael Matos  4:13 AM
-@Matthew Kennedy  @Bruno  in your opinion whats the advantage between runing a 8bit mcu and a 32 bit mcu apart from having more timers can bus, etc? (serious question)
+@Matthew Kennedy  @Andrey  in your opinion whats the advantage between runing a 8bit mcu and a 32 bit mcu apart from having more timers can bus, etc? (serious question)
 
 Matthew Kennedy  4:17 AM
 You mean why is 32b better?

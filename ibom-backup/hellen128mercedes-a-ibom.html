@@ -1605,7 +1605,7 @@ vacuumTouches:function(a){var b=a.touches;
 if(R.size>=b.length){var c=[];R.forEach(function(a,d){
 
 if(1!==d&&!this.findTouch(b,d-2)){var e=a.out;c.push(e)}},this),c.forEach(this.cancelOut,this)}},touchstart:function(a){this.vacuumTouches(a),this.setPrimaryTouch(a.changedTouches[0]),this.dedupSynthMouse(a),this.scrolling||(this.clickCount++,this.processTouches(a,this.overDown))},overDown:function(a){R.set(a.pointerId,{target:a.target,out:a,outTarget:a.target}),u.enterOver(a),u.down(a)},touchmove:function(a){this.scrolling||(this.shouldScroll(a)?(this.scrolling=!0,this.touchcancel(a)):(a.preventDefault(),this.processTouches(a,this.moveOverOut)))},moveOverOut:function(a){var b=a,c=R.get(b.pointerId);
-BrunoFA
+
 if(c){var d=c.out,e=c.outTarget;u.move(b),d&&e!==b.target&&(d.relatedTarget=b.target,b.relatedTarget=e,
 
 d.target=e,b.target?(u.leaveOut(d),u.enterOver(b)):(
@@ -1869,7 +1869,7 @@ function copyToClipboard() {
   document.body.appendChild(textArea);
 
   textArea.focus();
-BrunoFA
+
   textArea.select();
 
 
@@ -2784,7 +2784,7 @@ var emptyContext2d = document.createElement("canvas").getContext("2d");
 
 function deg2rad(deg) {
 
-  return deg * Math.PIBrunoFA
+  return deg * Math.PI / 180;
 
 }
 
@@ -2986,11 +2986,11 @@ function drawText(ctx, text, color) {
 
     }
 
-    ofBrunoFA interline;
+    offsety += interline;
 
   }
 
-  ctx.reBrunoFA
+  ctx.restore();
 
 }
 
@@ -3494,7 +3494,7 @@ function drawFootprints(canvas, layer, scalefactor, highlight) {
 
     var outline = settings.renderDnpOutline && pcbdata.bom.skipped.includes(i);
 
-    if (!highlBrunoFAhighlightedFootprints.includes(i)) {
+    if (!highlight || highlightedFootprints.includes(i)) {
 
       drawFootprint(ctx, layer, scalefactor, mod, padColor, padHoleColor, outlineColor, highlight, outline);
 

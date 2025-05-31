@@ -42,7 +42,7 @@ The 'info' section contains information which is used to generate the interactiv
 |name     |contains a human-readable name for the connector|informational|
 |order    |contains an index to order the connectors on the page. The lower the number, the nearer the top of the page. If the 'order' field is not present, order is undefined, but will probably be sorted alphabetically by the file name|informational|
 
-The interactive pinouts are automatically generated nightly by a Github Actions workflow, which Bruno can also run manually upon request.
+The interactive pinouts are automatically generated nightly by a Github Actions workflow, which Andrey can also run manually upon request.
 
 ## Best Practices
 

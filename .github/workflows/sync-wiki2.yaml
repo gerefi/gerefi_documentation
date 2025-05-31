@@ -30,12 +30,12 @@ jobs:
         git remote add technical-git https://github.com/gerefi/gerefi_documentation.git
         git fetch technical-git
         if [ $(git diff technical-git/master | wc -l) -eq 0 ]; then
-        echo "skip=true" >> $GITHUB_ENV
-        exit 0
+          echo "skip=true" >> $GITHUB_ENV
+          exit 0
         fi
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git merge technical-git/master
+        git merge technical-git/master --allow-unrelated-histories -X theirs
 
     - name: Push changes gerefi/gerefi wiki
       uses: ad-m/github-push-action@master
