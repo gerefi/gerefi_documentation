@@ -42,5 +42,5 @@ jobs:
       if: ${{ env.skip != 'true' }}
       with:
         repository: gerefi/gerefi.wiki
-        github_token: ${{ secrets.ACCESS_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: master
