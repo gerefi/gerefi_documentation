@@ -51,7 +51,7 @@ A: Please use gerEFI Online to [share tunes](HOWTO-upload-tune)
 
 A: You can but that's a bit scary. There are a lot of much nicer options like Windows 10 Snip Tool or [ShareX](https://getsharex.com/) for Windows screen snapshots or screen recording.
 
-### Q: Matt and Andrey are on Facebook, shall I message Matt or Andrey directly?
+### Q: Matt and Bruno are on Facebook, shall I message Matt or Bruno directly?
 
 A: Unfortunately we do not have resources for technical support via Facebook direct messages.
 Same about forum private messages. Please use public channels to have a higher chance of a response from the community. The more effort you make to ask a good question, the better response you would get. See also [HOWTO-ask-questions](HOWTO-ask-questions)

@@ -26,7 +26,7 @@ After 9 months of very questionable hardware a silent co-founder from New Englan
 
 [First test mule Ford Aspire - Forum](https://gerefi.com/forum/viewtopic.php?t=375)
 
-gerEFI has started out of the blue by Andrey.
+gerEFI has started out of the blue by Bruno.
 
 ## 2010
 
