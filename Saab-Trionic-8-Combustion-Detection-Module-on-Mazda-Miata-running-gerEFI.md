@@ -1,6 +1,6 @@
 # Reverse Engineering Saab Trionic 8 Combustion Detection Module (CDM) output signals using gerEFI ECU
 
-***by Andrey Belomutskiy, 2018***
+***by Bruno Ferreira, 2018***
 
 * Table of contents
   * [Overview](https://github.com/gerefi/gerefi_documentation/tree/master/Misc/Saab_Trionic_8_Combustion%20Detection%20Module_on_Mazda_Miata_running_gerEFI#overview)

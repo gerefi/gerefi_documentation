@@ -1,6 +1,6 @@
 # Discord
 
-See https://discord.gg/rCGAUaZJKF
+See https://discord.gg/BnZpgwb8
 
 ## Joining gerEFI Discord
 
